@@ -33,8 +33,18 @@ def create(request):
         if form.is_valid():
 
             title = form.cleaned_data["title"]
+
+            if util.get_entry(title) != None:
+                return render(request, "encyclopedia/entry.html", {
+                    "title": title, "content": "Esta página já existe."
+                })
+
             content = form.cleaned_data["content"]
             util.save_entry(title, content)
+
+            return render(request, "encyclopedia/entry.html", {
+                "title": title, "content": content
+            })
 
     return render(request, "encyclopedia/create.html", {
         "form": NewEntryForm()
