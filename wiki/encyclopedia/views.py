@@ -3,14 +3,20 @@ from django.shortcuts import render
 from . import util
 
 from django import forms
+from django.http import HttpResponseRedirect
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="title")
     content = forms.CharField(label="content")
 
+class NewSearchForm(forms.Form):
+    query = forms.CharField(label="Search")
+
 def index(request):
+    form = NewSearchForm()
+
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
+        "entries": util.list_entries(), "form": form
     })
 
 def entry(request, title):
@@ -49,3 +55,13 @@ def create(request):
     return render(request, "encyclopedia/create.html", {
         "form": NewEntryForm()
     })
+
+def search(request):
+
+    if request.method == "POST":
+        form = NewSearchForm(request.POST)
+
+        if form.is_valid():
+
+            title = form.cleaned_data["query"]
+            return HttpResponseRedirect("wiki/"+title)
