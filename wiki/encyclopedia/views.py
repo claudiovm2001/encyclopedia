@@ -16,7 +16,7 @@ def index(request):
     form = NewSearchForm()
 
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries(), "form": form, "text": "All Pages"
+        "entries": util.list_entries(), "form_search": form, "text": "All Pages"
     })
 
 def entry(request, title):
@@ -53,7 +53,7 @@ def create(request):
             })
 
     return render(request, "encyclopedia/create.html", {
-        "form": NewEntryForm()
+        "form_create": NewEntryForm()
     })
 
 def search(request):
@@ -78,3 +78,29 @@ def search(request):
             return render(request, "encyclopedia/index.html", {
                 "entries": results, "text": "Resultados: "
             })
+
+def edit(request, title):
+
+    if request.method == "POST":
+        form = NewEntryForm(request.POST)
+
+        if form.is_valid():
+
+            title_old = title
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+
+            util.save_entry(title, content)
+            util.delete_entry(title_old)
+
+            return render(request, "encyclopedia/entry.html", {
+                "title": title, "content": content
+            })
+
+    form = NewEntryForm(initial={
+        "title": title, "content": util.get_entry(title)
+    })
+
+    return render(request, "encyclopedia/edit.html", {
+        "form_create": form, "title": title
+    })

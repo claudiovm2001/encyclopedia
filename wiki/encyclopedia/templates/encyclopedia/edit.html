@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Criando:</h1>
+    <h1>Editando "{{title}}":</h1>
 
-    <form action="{% url 'encyclopedia:create' %}" method="post">
+    <form action="{{title}}" method="post">
         {% csrf_token %}
         {{form_create}}
         <input type="submit">
