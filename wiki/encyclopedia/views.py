@@ -16,7 +16,7 @@ def index(request):
     form = NewSearchForm()
 
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries(), "form": form
+        "entries": util.list_entries(), "form": form, "text": "All Pages"
     })
 
 def entry(request, title):
@@ -63,5 +63,18 @@ def search(request):
 
         if form.is_valid():
 
-            title = form.cleaned_data["query"]
-            return HttpResponseRedirect("wiki/"+title)
+            query = form.cleaned_data["query"]
+
+            if util.get_entry(query) != None:
+                return HttpResponseRedirect("wiki/"+query)
+
+            l = util.list_entries()
+
+            results_low = list(filter(lambda x: x.startswith(query.lower()), l))
+            results_up = list(filter(lambda x: x.startswith(query.upper()), l))
+
+            results = results_low + results_up
+
+            return render(request, "encyclopedia/index.html", {
+                "entries": results, "text": "Resultados: "
+            })
