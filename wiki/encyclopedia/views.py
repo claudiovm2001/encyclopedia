@@ -4,6 +4,7 @@ from . import util
 
 from django import forms
 from django.http import HttpResponseRedirect
+import random 
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="title")
@@ -104,3 +105,10 @@ def edit(request, title):
     return render(request, "encyclopedia/edit.html", {
         "form_create": form, "title": title
     })
+
+def randomize(request):
+    l = util.list_entries()
+    num = random.randint(0,(len(l)-1))
+    target = l[num]
+
+    return HttpResponseRedirect("wiki/"+target)
