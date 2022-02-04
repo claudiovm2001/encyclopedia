@@ -36,6 +36,7 @@ def get_entry(title):
     except FileNotFoundError:
         return None
 
+#Código autoral:
 def delete_entry(title):
     filename = f"entries/{title}.md"
     if default_storage.exists(filename):
