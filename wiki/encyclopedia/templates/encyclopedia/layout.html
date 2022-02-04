@@ -12,6 +12,8 @@
         <div class="row">
             <div class="sidebar col-lg-2 col-md-3">
                 <h2>Wiki</h2>
+                
+                <!--AUTORAL:-->
                 <form action="{% url 'encyclopedia:search' %}" method="post">
                     {% csrf_token %}
                     {{form_search}}
@@ -26,6 +28,8 @@
                 <div>
                     <a href="{% url 'encyclopedia:randomize' %}">Random Page</a>
                 </div>
+                <!--AUTORAL-->
+                
                 {% block nav %}
                 {% endblock %}
             </div>
