@@ -13,7 +13,6 @@
             <div class="sidebar col-lg-2 col-md-3">
                 <h2>Wiki</h2>
                 
-                <!--AUTORAL:-->
                 <form action="{% url 'encyclopedia:search' %}" method="post">
                     {% csrf_token %}
                     {{form_search}}
