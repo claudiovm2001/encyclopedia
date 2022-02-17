@@ -5,7 +5,6 @@ from . import util
 from django import forms
 from django.http import HttpResponseRedirect
 
-#Código autoral abaixo:
 import random 
 
 class NewEntryForm(forms.Form):
